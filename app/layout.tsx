@@ -3,6 +3,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/utils/theme-provider";
 import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 
 
 export const metadata: Metadata = {
@@ -27,6 +28,7 @@ export default function RootLayout({
           <ClerkProvider dynamic>
             <Navbar />
           {children}
+          <Toaster />
           </ClerkProvider>
 
         </ThemeProvider>
