@@ -30,9 +30,10 @@ function CreateFormButton() {
         const formId = await CreateForm(values)
         toast({
             title:"Success",
-            description:"Form Created Successfully."
+            description:"Form Created Successfully." 
         })
         router.refresh()
+        router.push(`/builder/${formId}`)
     } catch (error) {
         toast({
             title:"Error",
