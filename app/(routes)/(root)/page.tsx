@@ -44,6 +44,7 @@ interface StatsCardProps {
 }
 
 function StatsCards(props : StatsCardProps) {
+
   const {data,loading} = props
 
   return (
