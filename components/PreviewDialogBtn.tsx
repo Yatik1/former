@@ -1,8 +1,13 @@
 import React from 'react'
+import { Button } from './ui/button'
+import { PresentationIcon } from 'lucide-react'
 
 function PreviewDialogBtn() {
   return (
-    <div>PreviewDialogBtn</div>
+    <Button variant={"outline"} className='gap-2'>
+      <PresentationIcon className='h-6 w-6'/>
+      Preview 
+    </Button>
   )
 }
 
