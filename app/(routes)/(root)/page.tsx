@@ -39,7 +39,7 @@ async function CardStateWrapper() {
 }
 
 interface StatsCardProps {
-  data: Awaited<ReturnType<typeof GetFormStats>>
+  data?: Awaited<ReturnType<typeof GetFormStats>>
   loading:boolean
 }
 
