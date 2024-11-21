@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/utils/theme-provider";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
+import DesignerContextProvider from "@/context/DesignerContext";
 
 
 export const metadata: Metadata = {
@@ -19,19 +20,21 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <ThemeProvider
+        <DesignerContextProvider>
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-        >
-          <ClerkProvider dynamic>
-            <Navbar />
-          {children}
-          <Toaster />
-          </ClerkProvider>
+          >
+            <ClerkProvider dynamic>
+              <Navbar />
+              {children}
+              <Toaster />
+            </ClerkProvider>
 
-        </ThemeProvider>
+          </ThemeProvider>
+        </DesignerContextProvider>
       </body>
     </html>
   );
