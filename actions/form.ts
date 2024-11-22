@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { formSchema, formSchemaType } from "@/schemas/form";
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 class UserNotFoundErr extends Error {}
 
@@ -10,7 +11,8 @@ export async function GetFormStats() {
     const user = await currentUser()
     
     if(!user) {
-        throw new UserNotFoundErr()
+        redirect("/sign-in")
+        // throw new UserNotFoundErr()
     }
 
     const stats = await prisma.form.aggregate({
