@@ -10,7 +10,7 @@ import { Button } from './ui/button'
 
 function Designer() {
 
-    const {elements,addElement} = useDesigner()
+    const {elements,addElement,setSelectedElement,selectedElement} = useDesigner()
 
     const droppable = useDroppable({
         id:"designer-drop-area",
@@ -42,7 +42,9 @@ function Designer() {
 
   return (
     <div className='flex w-full h-full'>
-        <div className="p-4 w-full">
+        <div className="p-4 w-full" onClick={() => {
+            if (selectedElement) setSelectedElement(null)
+        }}>
             <div 
               ref={droppable.setNodeRef}
               className={cn(
@@ -77,7 +79,7 @@ function Designer() {
 function DesignerElementWrapper({element} : {element : FormElementInstance}) {
 
     const [isMouseOver, setIsMouseOver] = useState<boolean>(false)
-    const {removeElement} = useDesigner()
+    const {removeElement,selectedElement,setSelectedElement} = useDesigner()
 
     const topHalf = useDroppable({
         id:element.id+"-top",
@@ -109,6 +111,7 @@ function DesignerElementWrapper({element} : {element : FormElementInstance}) {
 
     if(draggable.isDragging) return null;
 
+    console.log("Selected Element" , element)
     const DesignerElement = FormElements[element.type].designerComponent
 
     return (
@@ -119,6 +122,10 @@ function DesignerElementWrapper({element} : {element : FormElementInstance}) {
             className="relative h-[120px] flex flex-col text-foreground hover:cursor-pointer rounded-md ring-1 ring-accent ring-inset"
             onMouseEnter={() => setIsMouseOver(true)}
             onMouseLeave={() => setIsMouseOver(false )}
+            onClick={(e) => {
+                e.stopPropagation()
+                setSelectedElement(element)
+            }}
         >
             <div 
                 ref={topHalf.setNodeRef}
@@ -135,8 +142,13 @@ function DesignerElementWrapper({element} : {element : FormElementInstance}) {
                 <>
                     <div className="absolute right-0 h-full">
                         <Button 
+                            variant={"outline"}
                             className="flex justify-center h-full border rounded-md rounded-l-none hover:bg-red-600 bg-red-500"
-                            onClick={() => removeElement(element.id)}
+                            onClick={(e) => {
+                                    e.stopPropagation()
+                                    removeElement(element.id)
+                                }
+                            }
                         >
                             <Trash className='w-6 h-6' />
                         </Button>
