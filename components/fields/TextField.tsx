@@ -27,11 +27,18 @@ export const TextFieldFormElement: FormElement = {
     },
     designerComponent : DesignerComponent,
     formComponent : () => <div>Form Component</div>,
-    propertiesComponent : () => <div>Properties Component</div>
+    propertiesComponent : PropertiesComponent
 }
 
 type CustomInstance = FormElementInstance & {
     extraAttributes: typeof extraAttributes
+}
+
+function PropertiesComponent({elementInstance} : {elementInstance : FormElementInstance}) {
+    const element = elementInstance as CustomInstance
+    return(
+        <div>Form Properties of {element.extraAttributes.label}</div>
+    )
 }
 
 function DesignerComponent({elementInstance} : {elementInstance:FormElementInstance}) {
