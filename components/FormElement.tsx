@@ -24,7 +24,7 @@ export type FormElement = {
 export type FormElementInstance = {
     id:string,
     type:ElementType,
-    extraAttribute?:Record<string,any>
+    extraAttributes?:Record<string,any>
 }
 
 type FormElementType = {
