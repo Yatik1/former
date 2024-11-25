@@ -9,7 +9,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import useDesigner from "@/hooks/useDesigner";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "../ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
+import { Switch } from "../ui/switch";
 
 
 const type:ElementType = "TextField"
@@ -104,11 +105,76 @@ function PropertiesComponent({elementInstance} : {elementInstance : FormElementI
                             />
                           </FormControl>
                           <FormDescription>
-                            The label of the field. <br /> It will be displayed above the field
+                            The label of the field. <br /> It will be displayed above the field.
                           </FormDescription>
+                          <FormMessage />
                        </FormItem>
                    )}
                 />
+                <FormField
+                   control={form.control}
+                   name="placeHolder"
+                   render={({field}) => (
+                       <FormItem>
+                          <FormLabel>PlaceHolder</FormLabel>
+                          <FormControl>
+                            <Input 
+                                {...field}
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter") e.currentTarget.blur()
+                                }}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            The placeholder of the field.
+                          </FormDescription>
+                          <FormMessage />
+                       </FormItem>
+                   )}
+                />
+                <FormField
+                   control={form.control}
+                   name="helperText"
+                   render={({field}) => (
+                       <FormItem>
+                          <FormLabel>Helper text</FormLabel>
+                          <FormControl>
+                            <Input 
+                                {...field}
+                                onKeyDown={(e) => {
+                                    if(e.key === "Enter") e.currentTarget.blur()
+                                }}
+                            />
+                          </FormControl>
+                          <FormDescription>
+                            The hepler text of the field. <br /> It will be displayed below the field.
+                          </FormDescription>
+                          <FormMessage />
+                       </FormItem>
+                   )}
+                />
+                <FormField
+                   control={form.control}
+                   name="required"
+                   render={({field}) => (
+                       <FormItem className="flex items-center justify-between border rounded-lg shadow-md p-3 gap-2">
+                          <div className="space-y-0.5">
+                            <FormLabel>Required</FormLabel>
+                            <FormDescription>
+                                Indicates whether this field must be filled out before submission.
+                            </FormDescription>
+                          </div>
+                          <FormControl>
+                            <Switch 
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                       </FormItem>
+                   )}
+                />
+                
             </form>
         </Form>
     )
