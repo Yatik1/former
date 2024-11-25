@@ -3,6 +3,7 @@ import React from 'react'
 import { FormElements } from './FormElement';
 import { Button } from './ui/button';
 import { X } from 'lucide-react';
+import { Separator } from './ui/separator';
 
 function PropertiesFormSidebar() {
     const {selectedElement,setSelectedElement} = useDesigner()
@@ -22,6 +23,7 @@ function PropertiesFormSidebar() {
                 <X />
             </Button>
         </div>
+        <Separator className='mb-4'/>
         <PropertiesForm elementInstance={selectedElement}/>
     </div>
   )
