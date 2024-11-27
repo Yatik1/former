@@ -4,7 +4,8 @@ import { FormElementInstance } from "@/components/FormElement";
 import { createContext, Dispatch, SetStateAction, useState } from "react";
 
 type DesignContextProps = {
-    elements:FormElementInstance[]
+    elements:FormElementInstance[],
+    setElements: Dispatch<SetStateAction<FormElementInstance[]>>,
     addElement:(index:number , element:FormElementInstance) => void,
     removeElement:(id:string) => void,
 
@@ -47,6 +48,7 @@ export default function DesignerContextProvider({children} : {children : React.R
         <DesignerContext.Provider
             value={{
                 elements,
+                setElements,
                 addElement,
                 removeElement,
                 selectedElement,
