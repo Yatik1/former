@@ -41,7 +41,7 @@ export const TextFieldFormElement: FormElement = {
         label: "Text field"
     },
     designerComponent : DesignerComponent,
-    formComponent : () => <div>Form Component</div>,
+    formComponent : FormComponent,
     propertiesComponent : PropertiesComponent
 }
 
@@ -50,6 +50,42 @@ type CustomInstance = FormElementInstance & {
 }
 
 type propertiesFormSchemaType = z.infer<typeof propertiesSchema>
+
+function DesignerComponent({elementInstance} : {elementInstance:FormElementInstance}) {
+
+    const element = elementInstance as CustomInstance
+    const { label, required, helperText, placeHolder } = element.extraAttributes
+    return (
+        <div className="flex flex-col gap-3 w-full">
+            <Label>
+                {label}
+                {required && "*"}
+            </Label>
+            <Input readOnly disabled placeholder={placeHolder} />
+            {helperText && (
+                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+            )}
+        </div>
+    )
+}
+
+function FormComponent({elementInstance} : {elementInstance:FormElementInstance}) {
+
+    const element = elementInstance as CustomInstance
+    const { label, required, helperText, placeHolder } = element.extraAttributes
+    return (
+        <div className="flex flex-col gap-3 w-full">
+            <Label>
+                {label}
+                {required && "*"}
+            </Label>
+            <Input placeholder={placeHolder} />
+            {helperText && (
+                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
+            )}
+        </div>
+    )
+}
 
 function PropertiesComponent({elementInstance} : {elementInstance : FormElementInstance}) {
     const element = elementInstance as CustomInstance
@@ -177,23 +213,5 @@ function PropertiesComponent({elementInstance} : {elementInstance : FormElementI
                 
             </form>
         </Form>
-    )
-}
-
-function DesignerComponent({elementInstance} : {elementInstance:FormElementInstance}) {
-
-    const element = elementInstance as CustomInstance
-    const { label, required, helperText, placeHolder } = element.extraAttributes
-    return (
-        <div className="flex flex-col gap-3 w-full">
-            <Label>
-                {label}
-                {required && "*"}
-            </Label>
-            <Input readOnly disabled placeholder={placeHolder} />
-            {helperText && (
-                <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
-            )}
-        </div>
     )
 }
