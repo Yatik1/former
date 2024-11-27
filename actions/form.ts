@@ -55,7 +55,8 @@ export async function CreateForm(data:formSchemaType) {
     
     const user = await currentUser()
     if(!user) {
-        throw new UserNotFoundErr()
+        redirect("/sign-in")
+        // throw new UserNotFoundErr()
     }
 
     const {name,description} = data
@@ -78,7 +79,8 @@ export async function CreateForm(data:formSchemaType) {
 export async function GetForms() {
     const user = await currentUser()
     if(!user) {
-        throw new UserNotFoundErr()
+        redirect("/sign-in")
+        // throw new UserNotFoundErr()
     }
 
     const forms =  await prisma.form.findMany({
@@ -95,7 +97,10 @@ export async function GetForms() {
 
 export async function GetFormById(id:number) {
     const user = await currentUser()
-    if(!user) throw new UserNotFoundErr();
+    if(!user) {
+        redirect("/sign-in")
+        // throw new UserNotFoundErr()
+    }
 
     const formById = await prisma.form.findUnique({
         where:{
@@ -105,4 +110,39 @@ export async function GetFormById(id:number) {
     })
 
     return formById
+}
+
+export async function UpdateFormContent(id:number, jsonContent:string) {
+    const user = await currentUser()
+    if(!user) {
+        redirect("/sign-in")
+        // throw new UserNotFoundErr()
+    }
+
+    return await prisma.form.update({
+        where:{
+            userId:user.id,
+            id,
+        },
+        data:{
+            content : jsonContent
+        }
+    })
+}
+
+export async function PublishForm(id:number) {
+     const user = await currentUser()
+     if(!user) {
+        redirect("/sign-in")
+     }
+
+     return await prisma.form.update({
+        data:{
+            published:true
+        },
+        where:{
+            userId:user.id,
+            id
+        }
+     })
 }
