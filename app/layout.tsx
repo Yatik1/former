@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/utils/theme-provider";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import DesignerContextProvider from "@/context/DesignerContext";
+import NextTopLoader from "nextjs-toploader"
 
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <NextTopLoader />
         <DesignerContextProvider>
           <ThemeProvider
             attribute="class"
