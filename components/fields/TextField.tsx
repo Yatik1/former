@@ -1,13 +1,13 @@
 "use client";
 
 import { Text, Type } from "lucide-react";
-import { ElementType, FormElement, FormElementInstance } from "../FormElement";
+import { ElementType, FormElement, FormElementInstance, SubmitFunction } from "../FormElement";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useDesigner from "@/hooks/useDesigner";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Switch } from "../ui/switch";
@@ -69,17 +69,28 @@ function DesignerComponent({elementInstance} : {elementInstance:FormElementInsta
     )
 }
 
-function FormComponent({elementInstance} : {elementInstance:FormElementInstance}) {
+function FormComponent({elementInstance,submitValue} : {elementInstance:FormElementInstance , submitValue?:SubmitFunction}) {
 
     const element = elementInstance as CustomInstance
     const { label, required, helperText, placeHolder } = element.extraAttributes
+
+    const [value,setValue] = useState("") 
+
     return (
         <div className="flex flex-col gap-3 w-full">
             <Label>
                 {label}
                 {required && "*"}
             </Label>
-            <Input placeholder={placeHolder} />
+            <Input 
+                placeholder={placeHolder} 
+                onChange={(e) => setValue(e.target.value)}
+                onBlur={(e) => {
+                    if(!submitValue) return;
+                    submitValue(element.id, e.target.value)
+                }}
+                value={value}
+            />
             {helperText && (
                 <p className="text-muted-foreground text-[0.8rem]">{helperText}</p>
             )}
