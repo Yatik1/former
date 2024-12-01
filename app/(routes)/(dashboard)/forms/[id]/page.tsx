@@ -17,7 +17,8 @@ async function BuilderPage(
   const {visits,submissions} = form
 
   let submissionRate = 0
-  if(visits>0) submissionRate = (submissions-visits)*100;
+  
+  submissionRate = (submissions/visits)*100;
 
   const bounceRate = 100 - submissionRate
 
@@ -45,7 +46,7 @@ async function BuilderPage(
          <StatsCard 
           title="Total Submissions"
           icon={<File className='w-4 h-4'/>}
-          value={visits.toLocaleString() || ""}
+          value={submissions.toLocaleString() || ""}
           helperText='All time form submissions'
           loading={false}
           />
