@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Form } from '@prisma/client'
 import React, { Suspense } from 'react'
 import {formatDistance} from "date-fns"
-import { ArrowRight, Edit, Folder, View } from 'lucide-react'
+import { ArrowRight, Edit, Folder, File, View, ViewIcon, SquareMousePointer, TrendingDown } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -51,24 +51,28 @@ function StatsCards(props : StatsCardProps) {
     <div className='w-full gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4'>
         <StatsCard 
           title="Total Visits"
+          icon={<ViewIcon className='w-4 h-4'/>}
           value={data?.visits.toLocaleString() || ""}
           helperText='All time form visits'
           loading={loading}
         />
         <StatsCard 
           title="Total Submissions"
-          value={data?.visits.toLocaleString() || ""}
+          icon={<File className='w-4 h-4'/>}
+          value={data?.submissions.toLocaleString() || ""}
           helperText='All time form submissions'
           loading={loading}
         />
         <StatsCard 
           title="Submission Rate"
+          icon={<SquareMousePointer className='w-4 h-4' />}
           value={data?.submissionRate.toLocaleString()+"%" || ""}
           helperText="Visits that results in form submissions"
           loading={loading}
         />
         <StatsCard 
           title="Bounce Rate"
+          icon={<TrendingDown className='w-4 h-4' />}
           value={data?.bounceRate.toLocaleString()+"%" || ""}
           helperText='Visits that leaves without interacting'
           loading={loading}
@@ -77,7 +81,7 @@ function StatsCards(props : StatsCardProps) {
   )
 }
 
-function StatsCard({
+export function StatsCard({
   title,
   value,
   icon,
@@ -95,8 +99,10 @@ function StatsCard({
   return (
     <Card className={className}>
       <CardHeader className='flex flex-row items-center justify-between pb-2'>
-        <CardTitle className='text-sm font-medium text-muted-foreground'>{title}</CardTitle>
-        {icon}
+        <CardTitle className='text-sm font-medium text-muted-foreground flex items-center justify-between w-full'>
+          {title}
+          {icon}
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">
