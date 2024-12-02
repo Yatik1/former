@@ -1,7 +1,10 @@
-import { GetFormById } from '@/actions/form'
+import { GetFormById, GetFormWithSubmissions } from '@/actions/form'
 import { StatsCard } from '@/app/(routes)/(root)/page';
+import { ElementType, FormElementInstance } from '@/components/FormElement';
 import FormLinkShare from '@/components/FormLinkShare';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import VisitBtn from '@/components/VisitBtn';
+import { formatDistance } from 'date-fns';
 import { File, SquareMousePointer, TrendingDown, ViewIcon } from 'lucide-react';
 import React from 'react'
 
@@ -75,12 +78,91 @@ async function BuilderPage(
 
 export default BuilderPage
 
-function SubmissionsTable({id}:{id:number}) {
+type Row = {[key:string]:string} & {
+  submittedAt:Date;
+}
+
+async function SubmissionsTable({id}:{id:number}) {
+
+  const form = await GetFormWithSubmissions(id)
+  if(!form) {
+    throw new Error("form not found")
+  }
+
+  const formElements = JSON.parse(form.content) as FormElementInstance[]
+  const columns:{
+    id:string,
+    label:string, 
+    required:boolean,
+    type:ElementType
+  }[] = []
+
+  formElements.forEach((element) => {
+    switch(element.type) {
+      case "TextField":
+        columns.push({
+          id:element.id,
+          label:element.extraAttributes?.label,
+          required:element.extraAttributes?.required,
+          type:element.type
+        })
+        break;
+      default:
+        break;
+    }
+  })
+
+  const rows:Row[] = []
+  form.FormSubmissions.forEach((submission) => {
+    const content = JSON.parse(submission.content)
+    rows.push({
+      ...content, 
+      submittedAt:submission.createdAt
+    })
+  })
+
   return (
     <>
-      <h1 className="text-2xl font-bold my-4 px-10">
-        Submissions
-      </h1>
+      <h1 className="text-2xl font-bold my-4 px-10"> Submissions </h1>
+      <div className="rounded-md border mx-10 px-4">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              {columns.map((column) => (
+                <TableHead key={column.id} className="uppercase">
+                  {column.label}
+                </TableHead>
+              ))}
+              <TableHead className='text-muted-foreground text-right uppercase'>Submitted At</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {rows.map((row,index) => (
+              <TableRow key={index}>
+                {columns.map((column) => (
+                  <RowCell 
+                    key={column.id}
+                    type={column.type}
+                    value={row[column.id]}
+                  />
+                ))}
+                <TableCell className='text-muted-foreground text-right'>
+                  {formatDistance(row.submittedAt, new Date() , {
+                    addSuffix:true
+                  })}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
     </>
+  )
+}
+
+function RowCell({type,value} : {type:ElementType , value:string}) {
+  let node:React.ReactNode = value
+  return (
+    <TableCell>{node}</TableCell>
   )
 }
