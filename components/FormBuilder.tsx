@@ -18,7 +18,7 @@ import Confetti from "react-confetti"
 
 function FormBuilder({form} : {form:Form}) {
 
-    const {setElements} = useDesigner()
+    const {setElements, setSelectedElement} = useDesigner()
     const [isReady,setIsReady] = useState(false)
 
     const mouseSensor = useSensor(MouseSensor , {
@@ -41,10 +41,11 @@ function FormBuilder({form} : {form:Form}) {
         if(isReady) return;
         const elements = JSON.parse(form.content)
         setElements(elements)
+        setSelectedElement(null)
         const readyTimeout = setTimeout(() => setIsReady(true),500)
 
         return () => clearTimeout(readyTimeout)
-    },[form,setElements])
+    },[form,setElements,setSelectedElement,isReady])
 
     if(!isReady) {
         return (
@@ -56,7 +57,7 @@ function FormBuilder({form} : {form:Form}) {
         )
     }
 
-    let shareUrl = `${window.location.origin}/submit/${form.shareURL}`
+    const shareUrl = `${window.location.origin}/submit/${form.shareURL}`
 
     if(form.published) {
         return(
