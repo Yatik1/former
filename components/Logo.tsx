@@ -5,9 +5,9 @@ function Logo() {
   return (
     <Link 
         href={"/"}
-        className='flex items-center justify-center font-bold text-2xl hover:cursor-pointer hover:bg-gradient-to-r from-indigo-400 to-cyan-400 hover:bg-clip-text hover:text-transparent'
+        className='flex items-center justify-center font-bold text-2xl hover:cursor-pointer'
     >
-        Formice
+        Former
     </Link>
   )
 }
