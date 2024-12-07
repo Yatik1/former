@@ -9,7 +9,7 @@ import NextTopLoader from "nextjs-toploader"
 
 
 export const metadata: Metadata = {
-  title: "Formice",
+  title: "Former",
   description: "Form builder application",
 };
 
