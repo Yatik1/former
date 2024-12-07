@@ -3,10 +3,11 @@ import FormBuilder from '@/components/FormBuilder';
 import React from 'react'
 
 async function BuilderPage(
-  {params} : {params : {id:string}}
+  {params} : any 
 ) {
 
-  const {id} = params
+  const {id} = params as {id : string}
+  
   const form = await GetFormById(Number(id))
 
   if(!form) throw new Error("form not found");
