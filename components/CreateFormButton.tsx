@@ -35,6 +35,7 @@ function CreateFormButton() {
         router.refresh()
         router.push(`/builder/${formId}`)
     } catch (error) {
+        console.log(error)
         toast({
             title:"Error",
             description:"Something went wrong!",
