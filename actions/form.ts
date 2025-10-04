@@ -59,7 +59,6 @@ export async function CreateForm(data:formSchemaType) {
     if(!validation.success) {
         throw new Error("form not valid")
     }
-    console.log("Name on the server" , data.name)
     
     const user = await currentUser()
     if(!user) {
@@ -82,6 +81,34 @@ export async function CreateForm(data:formSchemaType) {
     }
 
     return form.id
+}
+
+export async function CreateFormExternal(data:{name:string, description?:string} , userId:string) {
+  
+    if(!userId) {
+        throw new Error("User is not valid")
+      }
+    
+    const {name, description} = data
+
+    if(!name) {
+        throw new Error("Name field is required")
+    }
+  
+  const form = await prisma.form.create({
+    data: {
+        userId, 
+        name,
+        description
+    }
+  })
+
+  if(!form) {
+    throw new Error("Something went wrong")
+  }
+
+  return form.id
+
 }
 
 export async function GetForms() {
