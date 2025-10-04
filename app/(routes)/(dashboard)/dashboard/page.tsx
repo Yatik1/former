@@ -7,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { Form } from '@prisma/client'
 import React, { Suspense } from 'react'
 import {formatDistance} from "date-fns"
-import { ArrowRight, Edit, Folder, File, View, ViewIcon, SquareMousePointer, TrendingDown } from 'lucide-react'
+import { ArrowRight, Edit, Folder, View } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import Navbar from '@/components/Navbar'
