@@ -10,3 +10,8 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 };
+
+// export const configAPIKey = {
+//   const jobsyAPI = 'abc'
+
+// }
